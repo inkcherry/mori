@@ -73,6 +73,7 @@ struct EpDispatchCombineConfig {
   int rank{0};
   int worldSize{0};
   int hiddenDim{4096};
+  int numWorstToken{0};
   int scaleDim{32};
   int scaleTypeSize{1};
   int maxTokenTypeSize{4};
@@ -98,6 +99,9 @@ struct EpDispatchCombineConfig {
   }
 
   inline __host__ __device__ int MaxNumTokensToRecv() const {
+    if (numWorstToken != 0) {
+        return numWorstToken;
+    }
     return worldSize * MaxNumTokensToRecvPerRank();
   }
 };

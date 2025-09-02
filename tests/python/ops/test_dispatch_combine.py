@@ -281,6 +281,7 @@ def _test_dispatch_combine(
         max_token_type_size=4,
         block_num=40,
         warp_num_per_block=8,
+        num_worst_token=2
     )
     op = mori.ops.EpDispatchCombineOp(config)
     test_case = EpDispatchCombineTestCase(config)

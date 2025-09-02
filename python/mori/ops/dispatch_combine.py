@@ -45,9 +45,9 @@ class EpDispatchCombineConfig:
     num_experts_per_token: int
     warp_num_per_block: int = 8
     block_num: int = 80
+    num_worst_token: int = 15
     use_external_inp_buf: bool = True
     kernel_type: EpDispatchCombineKernelType = EpDispatchCombineKernelType.IntraNode
-
 
 def _cpp_dispatch_combine_factory(entity_name):
     return getattr(mori_cpp, entity_name)
@@ -71,6 +71,7 @@ class EpDispatchCombineOp:
                 num_experts_per_token=config.num_experts_per_token,
                 warp_num_per_block=config.warp_num_per_block,
                 block_num=config.block_num,
+                num_worst_token = config.num_worst_token,
                 use_external_inp_buf=config.use_external_inp_buf,
             )
         )
@@ -115,6 +116,7 @@ class EpDispatchCombineOp:
             indices,
             block_num,
             warp_per_block,
+            
         )
 
     def combine(
