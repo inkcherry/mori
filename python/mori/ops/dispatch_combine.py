@@ -45,7 +45,7 @@ class EpDispatchCombineConfig:
     num_experts_per_token: int
     warp_num_per_block: int = 8
     block_num: int = 80
-    num_worst_token: int = 15
+    num_worst_token: int = 0
     use_external_inp_buf: bool = True
     kernel_type: EpDispatchCombineKernelType = EpDispatchCombineKernelType.IntraNode
 

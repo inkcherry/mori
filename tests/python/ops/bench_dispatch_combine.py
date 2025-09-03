@@ -59,7 +59,7 @@ class EpDispatchCombineBenchmark(EpDispatchCombineTestCase):
             all_rank_scales[self.config.rank],
             all_rank_indices[self.config.rank],
             block_num=80,
-            warp_per_block=16
+            warp_per_block=16,
         )
         end_event.record()
         self.sync()
@@ -91,7 +91,7 @@ class EpDispatchCombineBenchmark(EpDispatchCombineTestCase):
             None,
             dispatch_indices,
             call_reset=False,
-            block_num=88,
+            block_num=80,
             warp_per_block=8,
         )
         end_event.record()
@@ -183,12 +183,12 @@ def _bench_dispatch_combine(
     port,
     max_num_inp_token_per_rank=4096,
     data_type=torch.bfloat16,
-    hidden_dim=1024,
+    hidden_dim=4096,
     scale_dim=0,
     scale_type_size=0,
     num_experts_per_rank=16,
-    num_experts_per_token=8, #topk
-    num_worst_token=20
+    num_experts_per_token=8,
+    num_worst_token=20,
 ):
     config = mori.ops.EpDispatchCombineConfig(
         data_type=data_type,
@@ -197,7 +197,7 @@ def _bench_dispatch_combine(
         hidden_dim=hidden_dim,
         scale_dim=scale_dim,
         scale_type_size=scale_type_size,
-        max_token_type_size=299,
+        max_token_type_size=2,
         max_num_inp_token_per_rank=max_num_inp_token_per_rank,
         num_experts_per_rank=num_experts_per_rank,
         num_experts_per_token=num_experts_per_token,
