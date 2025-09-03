@@ -76,10 +76,10 @@ struct EpDispatchCombineConfig {
   int scaleDim{32};
   int scaleTypeSize{1};
   int maxTokenTypeSize{4};
-  int numWorstToken{0};
   int maxNumInpTokenPerRank{128};
   int numExpertPerRank{1};
   int numExpertPerToken{2};
+  int numWorstToken{0};
   int warpNumPerBlock{1};
   int blockNum{1};
   // If true, use external buffer which incurs extra copy overhead; otherwise, the kernel assumes

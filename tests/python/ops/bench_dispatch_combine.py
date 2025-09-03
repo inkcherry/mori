@@ -197,12 +197,11 @@ def _bench_dispatch_combine(
         hidden_dim=hidden_dim,
         scale_dim=scale_dim,
         scale_type_size=scale_type_size,
-        max_token_type_size=2,
+        max_token_type_size=299,
         max_num_inp_token_per_rank=max_num_inp_token_per_rank,
         num_experts_per_rank=num_experts_per_rank,
         num_experts_per_token=num_experts_per_token,
         num_worst_token=num_worst_token,
-
         warp_num_per_block=16,
         block_num=80,
         use_external_inp_buf=False,
