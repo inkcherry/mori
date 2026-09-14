@@ -1800,6 +1800,16 @@ class EpDispatchCombineOp:
                 weights.dtype,
             )
 
+        # combine writes one row per source token, but the buffer holds
+        # max_num_inp_token_per_rank rows and the tail still carries whatever the
+        # previous call left there. Slice instead of viewing at (cur_n, ...):
+        # shape is part of the view-cache key, so a per-batch shape would add an
+        # entry per distinct token count and pay the rebuild the cache removes.
+        if 0 < cur_n < self.config.max_num_inp_token_per_rank:
+            out = out[:cur_n]
+            if out_weights is not None:
+                out_weights = out_weights[:cur_n]
+
         if call_reset:
             self._reset_func(self._handle, _current_stream())
         return (out, out_weights)
@@ -2105,6 +2115,10 @@ class EpDispatchCombineOp:
             input.dtype,
         )
         out_weights = None
+
+        # Same tail as combine(): return only the rows this call produced.
+        if 0 < cur_n < self.config.max_num_inp_token_per_rank:
+            out = out[:cur_n]
 
         if call_reset:
             self._reset_func(self._handle, _current_stream())
